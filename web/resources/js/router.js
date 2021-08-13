@@ -8,6 +8,7 @@ import contracts from './components/pages/contracts';
 import software from './components/pages/software';
 import rewriteFile from './components/pages/rewriteFile';
 import uploadSW from './components/pages/uploadSW';
+import pdf from './components/pages/pdf';
 
 Vue.use(Router)
 
@@ -21,6 +22,8 @@ export const routes = [
       {path: 'rewritefile/:id', component: rewriteFile},
       {path: 'uploadSW', component: uploadSW, name:'uploadSW'}
     ]
+  },
+  { path: '/:id/:filename', component: pdf, name:'pdf'
   }
 ];
   

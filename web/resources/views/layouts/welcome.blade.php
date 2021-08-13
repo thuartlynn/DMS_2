@@ -125,7 +125,7 @@
                 #center {
                     background-color: #eeeeee;
                     height: 79vh;
-                    overflow: scroll;
+                    overflow-y: scroll;
                 }
 
                 #bottom {

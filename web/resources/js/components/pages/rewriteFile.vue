@@ -66,14 +66,15 @@
 
                     <p class="mt-4">
                         <label for="file"><i class="fab fa-connectdevelop fa-1x mr-1"></i>已上傳的檔案名稱：</label>
-                        <ul id="inline" v-if="files.length>0">
-                            <li v-for="(file, index) in files" :key="'file - ' + index">
-                                <i class="fas fa-file-pdf fa-1x ml-1"></i> <a v-bind:href="file.link" target="_blank" >{{ file.filename }}/</a>
-                            </li>
-                        </ul>
-                        <!-- <i class="fas fa-angle-double-right fa-1x mr-1 ml-4"></i><button class="btn btn-outline-secondary" type="button" @click="show">新增檔案</button> -->
-                        <i class="fas fa-angle-double-right fa-1x mr-1 ml-4"></i><button class="btn btn-outline-secondary" type="button" @click="$refs.file.click()" >新增檔案</button><span class="ml-2">{{ file }}</span>
+                        <div v-if="item.Files.length>0">
+                            <!-- <p v-for="(file, index) in item.Files" :key="'file - ' + index" class="ml-4"><a href="/filePDF/" target="_blank" >{{ file }}</a></p> -->
+                            <p v-for="(file, index) in item.Files" :key="'file - ' + index" class="ml-4"><a :href="'/' + id + '/' + file " target="_blank" >{{ file }}</a></p>
+                        </div>
 
+                        <div v-else> <p class="ml-4" >資料庫中無檔案.</p> </div>
+                        
+                        <i class="fas fa-angle-double-right fa-1x mr-1 ml-4"></i><button class="btn btn-outline-secondary" type="button" @click="$refs.file.click()" >新增檔案</button><span class="ml-2">{{ file }}</span>
+                        
                     </p>
 
                     <p class="mt-4">
@@ -86,9 +87,7 @@
             </template>
 
             <input type="file" ref="file" class="d-none" accept=".pdf" multiple="multiple" v-on:change="handleFileUpload()">
-            <!-- <p :class=" isShow ? 'show' : '' " :style="isShow ? 'display:block' : 'display:none'">
-                <input id="files" type="file" ref="file" accept=".pdf" multiple="multiple" >
-            </p> -->
+            
         </form>
     </div>
     </div>
@@ -101,6 +100,7 @@
     export default {
         data() {
             return {
+                id: this.$route.params.id,
                 loading: true,
                 contractDatas: [],
                 date: null,
@@ -109,21 +109,19 @@
                 },
                 statusO: ['有效','無效','送簽中','洽談中'],
                 maintenanceStaffs: [],
-                files: [
-                    {
-                        id: 1, 
-                        filename: "第一個檔案的名稱",
-                        link: "https://drive.google.com/file/d/17iIsr29YeQMxo-MYskuDXG3N0V5Wc8zk/view?usp=sharing" 
-                    },
-                    {
-                        id: 2, 
-                        filename: "第二個檔案的名稱",
-                        link: "https://drive.google.com/file/d/17iIsr29YeQMxo-MYskuDXG3N0V5Wc8zk/view?usp=sharing" 
-                    }
-                ],
-                phoneNumbers: [{ phone: "" }],
-                isShow: false,
-                file:''
+                // files: [  測試使用
+                //     {
+                //         id: 1, 
+                //         filename: "第一個檔案的名稱",
+                //         link: "/pdf" 
+                //     },
+                //     {
+                //         id: 2, 
+                //         filename: "第二個檔案的名稱",
+                //         link: "https://drive.google.com/file/d/17iIsr29YeQMxo-MYskuDXG3N0V5Wc8zk/view?usp=sharing" 
+                //     }
+                // ],
+                file:'',
             }
         },
         methods: {
@@ -158,9 +156,6 @@
                     // alert ('有錯誤，請洽管理員！')
                 })
             },
-            show () {
-                this.isShow = !this.isShow;
-            }
             
         },
         created() {
@@ -178,7 +173,7 @@
                 response => {
                     // this.contractDatas = response.data[0]
                     this.contractDatas = response.data
-                    //console.log(this.contractDatas)
+                    console.log(this.contractDatas)
                     this.loading = !this.loading
                 }
             )
@@ -192,6 +187,9 @@
                 return Object.keys(this.contractDatas);
 
             },
+        },
+        components: {
+
         }
     }
 </script>
